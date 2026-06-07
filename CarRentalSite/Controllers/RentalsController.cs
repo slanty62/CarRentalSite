@@ -22,14 +22,14 @@ public class RentalsController : Controller
         _userManager = userManager;
     }
 
-    // Возвращает ID текущего пользователя (GUID), а не Email
+    
     private async Task<string?> GetCurrentUserIdAsync()
     {
         var user = await _userManager.GetUserAsync(User);
         return user?.Id;
     }
 
-    // Мои бронирования
+    
     public async Task<IActionResult> MyRentals()
     {
         var userId = await GetCurrentUserIdAsync();
@@ -47,7 +47,7 @@ public class RentalsController : Controller
         return View(rentals);
     }
 
-    // GET: Форма создания аренды
+    
     public async Task<IActionResult> Create(int carId)
     {
         try
@@ -86,9 +86,9 @@ public class RentalsController : Controller
         }
     }
 
-    // POST: Создание аренды
+    
     [HttpPost]
-    // [ValidateAntiForgeryToken] // Для fetch-запросов пока отключён
+    
     public async Task<IActionResult> Create(RentCarViewModel model)
     {
         var userId = await GetCurrentUserIdAsync();
@@ -145,7 +145,7 @@ public class RentalsController : Controller
 
             var rental = new Rental
             {
-                UserId = userId,   // теперь это GUID, а не email
+                UserId = userId,   
                 CarId = model.CarId,
                 StartDate = start,
                 EndDate = end,
@@ -174,7 +174,7 @@ public class RentalsController : Controller
         }
     }
 
-    // Отмена бронирования
+    
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id)

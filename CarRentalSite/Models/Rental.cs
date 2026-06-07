@@ -30,5 +30,5 @@ public class Rental
     public DateTime BookingDate { get; set; } = DateTime.Now;
 
     [Display(Name = "Статус")]
-    public string Status { get; set; } = "Active"; // Active, Completed, Cancelled
+    public string Status { get; set; } = "Active"; 
 }

@@ -14,20 +14,20 @@ public class CarsController : Controller
         _context = context;
     }
 
-    // Список всех доступных авто
+  
     public async Task<IActionResult> Index()
     {
         var cars = await _context.Cars.Where(c => c.IsAvailable).ToListAsync();
         return View(cars);
     }
 
-    // Детали авто
+    
     public async Task<IActionResult> Details(int id)
     {
         var car = await _context.Cars.FindAsync(id);
         if (car == null)
         {
-            return NotFound(); // 404 страница
+            return NotFound();
         }
         return View(car);
     }

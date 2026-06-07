@@ -16,7 +16,7 @@ public class ApplicationDbContext : IdentityDbContext
     {
         base.OnModelCreating(builder);
 
-        // Начальное наполнение (seed) – несколько автомобилей
+        
         builder.Entity<Car>().HasData(
             new Car { Id = 1, Brand = "Toyota", Model = "Camry", Year = 2022, PricePerDay = 5000, IsAvailable = true, ImageUrl = "/images/camry.jpg", Description = "Надёжный седан для города и трассы" },
             new Car { Id = 2, Brand = "BMW", Model = "X5", Year = 2023, PricePerDay = 15000, IsAvailable = true, ImageUrl = "/images/bmw-x5.jpg", Description = "Премиум внедорожник" },

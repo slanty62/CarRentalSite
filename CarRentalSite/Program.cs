@@ -4,7 +4,7 @@ using CarRentalSite.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Добавление контекста БД
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -17,10 +17,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Контроллеры с представлениями
+
 builder.Services.AddControllersWithViews();
 
-// Добавление API с документацией Swagger
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
