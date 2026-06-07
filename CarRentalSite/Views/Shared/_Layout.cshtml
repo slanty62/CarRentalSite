@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Аренда автомобилей с доставкой. Краснодар." />
+    <title>@ViewData["Title"] - CarRental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Тёмный фон: #1a1a1a, белый текст, жёлтый акцент -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: #1a1a1a !important;">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-car-front-fill"></i> Car<span style="color:#808080;">Rental</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/Cars"><i class="bi bi-grid"></i> Автомобили</a></li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/Rentals/MyRentals"><i class="bi bi-calendar-check"></i> Мои бронирования</a></li>
+                    }
+                    <li class="nav-item"><a class="nav-link" href="/About"><i class="bi bi-info-circle"></i> О нас</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i> @User.Identity.Name
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="/Rentals/MyRentals"><i class="bi bi-calendar"></i> Мои бронирования</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form asp-controller="Account" asp-action="Logout" method="post">
+                                        <button type="submit" class="dropdown-item text-danger"><i class="bi bi-box-arrow-right"></i> Выйти</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item"><a class="nav-link" href="/Account/Login"><i class="bi bi-key"></i> Вход</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Account/Register"><i class="bi bi-person-plus"></i> Регистрация</a></li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center text-md-start mb-3 mb-md-0">
+                    <i class="bi bi-car-front-fill fs-3"></i>
+                    <span class="fw-bold">CarRental</span>
+                    <p class="small mt-2">© 2026 Аренда автомобилей в Москве</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <a href="/About" class="text-decoration-none">
+                        <i class="bi bi-people-fill text-danger fs-4"></i>
+                        <span class="text-muted"> О разработчиках</span>
+                    </a>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <p class="small mb-0">
+                        <i class="bi bi-telephone"></i> +7 (999) 123-45-67<br>
+                        <i class="bi bi-envelope"></i> serklochkov28@gmail.com
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,347 @@
+/* ---------- Глобальные переменные ---------- */
+:root {
+    --primary-red: #dc3545;
+    --dark-red: #b02a37;
+    --light-red: #f8d7da;
+    --gray-dark: #343a40;
+    --gray-light: #f8f9fa;
+    --transition: all 0.3s ease;
+    --transition-slow: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ---------- Анимации ---------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Анимация для карточек при загрузке */
+.card, .hero-section, .auth-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* ---------- Навигация (ТЁМНАЯ, текст белый, иконка видна) ---------- */
+.navbar {
+    background: #1a1a1a !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: var(--transition);
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    color: white !important;
+}
+
+    .navbar-brand:hover {
+        transform: scale(1.02);
+        text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        color: #ffc107 !important;
+    }
+
+.nav-link {
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+    .nav-link:hover {
+        transform: translateY(-2px);
+        color: #ffc107 !important;
+    }
+
+    /* Эффект подчёркивания */
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: #ffc107;
+        transition: var(--transition);
+        transform: translateX(-50%);
+    }
+
+    .nav-link:hover::after {
+        width: 80%;
+    }
+
+/* Выпадающее меню пользователя (тёмное) */
+.navbar .dropdown-menu {
+    background-color: #2c2c2c;
+    border: none;
+}
+
+.navbar .dropdown-item {
+    color: white;
+}
+
+    .navbar .dropdown-item:hover {
+        background-color: var(--primary-red);
+        color: white;
+    }
+
+/* Кнопка "Выйти" */
+.btn-outline-light {
+    border-color: rgba(255, 255, 255, 0.5);
+    color: white;
+}
+
+    .btn-outline-light:hover {
+        background-color: var(--primary-red);
+        border-color: var(--primary-red);
+    }
+
+/* ---------- Кнопки ---------- */
+.btn {
+    transition: var(--transition);
+    border-radius: 50px !important;
+    font-weight: 600;
+    padding: 0.6rem 1.5rem;
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+    border: none;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3);
+}
+
+    .btn-danger:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(220, 53, 69, 0.4);
+        filter: brightness(1.05);
+    }
+
+.btn-outline-danger {
+    border-width: 2px;
+}
+
+    .btn-outline-danger:hover {
+        transform: translateY(-3px);
+        background: var(--primary-red);
+        color: white;
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    }
+
+.btn-secondary {
+    background: #6c757d;
+    border: none;
+}
+
+    .btn-secondary:hover {
+        transform: translateY(-3px);
+        background: #5a6268;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+/* ---------- Карточки автомобилей (улучшенное увеличение) ---------- */
+.card {
+    border: none;
+    border-radius: 1rem !important;
+    transition: var(--transition-slow);
+    overflow: hidden;
+    background: white;
+}
+
+    .card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: 0 25px 40px rgba(0, 0, 0, 0.2);
+    }
+
+.card-img-top {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    height: 220px;
+    object-fit: cover;
+}
+
+.card:hover .card-img-top {
+    transform: scale(1.08);
+}
+
+.card-title {
+    font-weight: 700;
+    color: var(--gray-dark);
+}
+
+/* ---------- Герой-секция (главная) ---------- */
+.hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/images/hero-bg.jpg') center/cover fixed;
+    border-radius: 0 0 2rem 2rem;
+    padding: 100px 0;
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+    .hero-section h1 {
+        font-size: 4rem;
+        font-weight: 800;
+        text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+    }
+
+.btn-hero {
+    background: var(--primary-red);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 35px;
+    font-weight: 700;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+    .btn-hero:hover {
+        transform: scale(1.05);
+        background: var(--dark-red);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+/* ---------- КАРУСЕЛЬ (плавная, с увеличением и Ken Burns) ---------- */
+.carousel-fade .carousel-item {
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+    .carousel-fade .carousel-item.active {
+        transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    }
+
+/* Эффект Ken Burns (медленное приближение) */
+.carousel-item img {
+    transform: scale(1.05);
+    transition: transform 8s ease-out;
+    filter: brightness(0.85);
+}
+
+.carousel-item.active img {
+    transform: scale(1.1);
+}
+
+/* Увеличение при наведении на слайд */
+.carousel-item {
+    overflow: hidden;
+}
+
+    .carousel-item:hover img {
+        transform: scale(1.12);
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    /* Затемнение фона для читаемости текста */
+    .carousel-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+        pointer-events: none;
+        transition: background 0.3s;
+    }
+
+    .carousel-item:hover::before {
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+.carousel-caption {
+    bottom: 20%;
+    background: rgba(0, 0, 0, 0.65);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    animation: fadeInUp 0.6s ease-out;
+    z-index: 2;
+}
+
+    .carousel-caption h3 {
+        font-size: 1.8rem;
+        font-weight: bold;
+    }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    width: 3rem;
+    height: 3rem;
+    background-size: 1.5rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* ---------- Футер ---------- */
+.footer {
+    background: #212529;
+    color: #adb5bd;
+    border-top: 3px solid var(--primary-red);
+    padding: 2rem 0;
+    margin-top: 3rem;
+}
+
+    .footer a {
+        color: var(--primary-red);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+        .footer a:hover {
+            color: white;
+            transform: translateX(3px);
+            display: inline-block;
+        }
+
+.social-icons a {
+    font-size: 1.5rem;
+    margin: 0 10px;
+    transition: var(--transition);
+}
+
+    .social-icons a:hover {
+        transform: translateY(-5px);
+        color: #ffc107;
+    }
+
+/* ---------- Адаптивность ---------- */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+
+    .btn-lg {
+        padding: 0.5rem 1.2rem;
+        font-size: 1rem;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .carousel-caption {
+        bottom: 5%;
+        padding: 0.5rem;
+    }
+
+        .carousel-caption h3 {
+            font-size: 1rem;
+        }
+}

@@ -1,0 +1,101 @@
+﻿@model IEnumerable<CarRentalSite.Models.Rental>
+@{
+    ViewData["Title"] = "Мои бронирования";
+}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-danger"><i class="bi bi-calendar-check"></i> Мои аренды</h2>
+        <a href="/Cars" class="btn btn-outline-danger rounded-pill"><i class="bi bi-car-front"></i> Новое бронирование</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show rounded-3" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show rounded-3" role="alert">
+            <i class="bi bi-exclamation-triangle-fill"></i> @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info text-center rounded-4 shadow-sm">
+            <i class="bi bi-emoji-frown fs-1"></i>
+            <p class="mt-3">У вас пока нет бронирований. <a href="/Cars" class="alert-link">Выберите автомобиль</a></p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle shadow-sm rounded-4 overflow-hidden">
+                <thead class="bg-danger text-white">
+                    <tr>
+                        <th><i class="bi bi-car-front"></i> Автомобиль</th>
+                        <th><i class="bi bi-calendar"></i> Дата начала</th>
+                        <th><i class="bi bi-calendar"></i> Дата окончания</th>
+                        <th><i class="bi bi-hourglass-split"></i> Кол-во дней</th>
+                        <th><i class="bi bi-currency-ruble"></i> Стоимость</th>
+                        <th><i class="bi bi-info-circle"></i> Статус</th>
+                        <th><i class="bi bi-gear"></i> Действие</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var rental in Model)
+                    {
+                        var days = (rental.EndDate - rental.StartDate).Days;
+                        <tr>
+                            <td class="fw-semibold">@rental.Car?.Brand @rental.Car?.Model</td>
+                            <td>@rental.StartDate.ToString("dd.MM.yyyy")</td>
+                            <td>@rental.EndDate.ToString("dd.MM.yyyy")</td>
+                            <td>@days</td>
+                            <td class="text-danger fw-bold">@rental.TotalPrice.ToString("N0") ₽</td>
+                            <td>
+                                @if (rental.Status == "Active")
+                                {
+                                    <span class="badge bg-success rounded-pill px-3 py-2"><i class="bi bi-check-circle"></i> Активна</span>
+                                }
+                                else if (rental.Status == "Completed")
+                                {
+                                    <span class="badge bg-secondary rounded-pill px-3 py-2"><i class="bi bi-clock-history"></i> Завершена</span>
+                                }
+                                else if (rental.Status == "Cancelled")
+                                {
+                                    <span class="badge bg-danger rounded-pill px-3 py-2"><i class="bi bi-x-circle"></i> Отменена</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning rounded-pill px-3 py-2">@rental.Status</span>
+                                }
+                            </td>
+                            <td>
+                                @if (rental.Status == "Active")
+                                {
+                                    <form asp-action="Cancel" method="post" onsubmit="return confirm('Отменить бронирование?')" class="d-inline">
+                                        <input type="hidden" name="id" value="@rental.Id" />
+                                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill">
+                                            <i class="bi bi-trash3"></i> Отменить
+                                        </button>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">—</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}

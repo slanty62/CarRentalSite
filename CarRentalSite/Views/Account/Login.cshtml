@@ -1,0 +1,59 @@
+﻿@model CarRentalSite.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Вход в аккаунт";
+    Layout = null; // Отключаем основной макет, чтобы фон был на всю страницу
+}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CarRental</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="auth-body">
+    <div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="col-md-6 col-lg-5">
+            <div class="card auth-card">
+                <div class="card-header">
+                    <i class="bi bi-key auth-icon"></i>
+                    <h3 class="mt-2">Добро пожаловать</h3>
+                    <p class="text-muted">Войдите в свой аккаунт</p>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="Login" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"><i class="bi bi-envelope"></i> Email</label>
+                            <input asp-for="Email" class="form-control" placeholder="example@mail.com" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"><i class="bi bi-lock"></i> Пароль</label>
+                            <input asp-for="Password" class="form-control" type="password" placeholder="••••••" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input asp-for="RememberMe" class="form-check-input" />
+                            <label asp-for="RememberMe" class="form-check-label">Запомнить меня</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Войти</button>
+                    </form>
+                    <div class="text-center mt-4">
+                        <p>Нет аккаунта? <a asp-action="Register" class="auth-link">Зарегистрироваться</a></p>
+                        <a href="/" class="auth-link">← Вернуться на главную</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</body>
+</html>

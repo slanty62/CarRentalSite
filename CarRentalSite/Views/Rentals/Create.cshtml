@@ -1,0 +1,140 @@
+﻿@model CarRentalSite.Models.ViewModels.RentCarViewModel
+@{
+    ViewData["Title"] = "Бронирование автомобиля";
+    var invariantPrice = Model.PricePerDay.ToString(System.Globalization.CultureInfo.InvariantCulture);
+}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-danger text-white text-center rounded-top-4" style="background: linear-gradient(135deg, #dc3545, #b02a37);">
+                    <i class="bi bi-calendar-check fs-2"></i>
+                    <h3 class="mb-0 mt-2">Оформление аренды</h3>
+                </div>
+                <div class="card-body p-4">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-car-front-fill fs-1 text-danger"></i>
+                        <h4 class="mt-2">@Model.CarName</h4>
+                        <p class="text-muted">Цена за день: <strong class="text-danger">@Model.PricePerDay ₽</strong></p>
+                    </div>
+                    <hr />
+                    <form id="rentalForm">
+                        <input type="hidden" name="CarId" value="@Model.CarId" />
+                        <input type="hidden" name="CarName" value="@Model.CarName" />
+                        <input type="hidden" name="PricePerDay" value="@Model.PricePerDay" />
+
+                        <div class="mb-3">
+                            <label for="StartDate" class="form-label fw-semibold"><i class="bi bi-calendar"></i> Дата начала</label>
+                            <input type="date" class="form-control rounded-3" id="StartDate" name="StartDate" value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+                            <span class="text-danger" id="startDateError"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="EndDate" class="form-label fw-semibold"><i class="bi bi-calendar"></i> Дата окончания</label>
+                            <input type="date" class="form-control rounded-3" id="EndDate" name="EndDate" value="@Model.EndDate.ToString("yyyy-MM-dd")" />
+                            <span class="text-danger" id="endDateError"></span>
+                        </div>
+
+                        <div class="mb-4 p-3 bg-light rounded-3 text-center">
+                            <p id="totalPrice" class="fw-bold fs-3 text-danger mb-0">Итого: 0 ₽</p>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                            <button type="button" id="submitBtn" class="btn btn-danger btn-lg px-4 rounded-pill">
+                                <i class="bi bi-check-lg"></i> Подтвердить бронирование
+                            </button>
+                            <a asp-controller="Cars" asp-action="Details" asp-route-id="@Model.CarId" class="btn btn-outline-secondary btn-lg px-4 rounded-pill">
+                                <i class="bi bi-arrow-left"></i> Назад
+                            </a>
+                        </div>
+                    </form>
+                    <div id="errorSummary" class="alert alert-danger mt-3 rounded-3" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const pricePerDay = @invariantPrice;
+    const startInput = document.getElementById('StartDate');
+    const endInput = document.getElementById('EndDate');
+    const totalSpan = document.getElementById('totalPrice');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorDiv = document.getElementById('errorSummary');
+
+    function calculateTotal() {
+        if (!startInput.value || !endInput.value) {
+            totalSpan.innerText = 'Итого: 0 ₽';
+            return;
+        }
+        const start = new Date(startInput.value);
+        const end = new Date(endInput.value);
+        if (end > start) {
+            const days = (end - start) / (1000 * 3600 * 24);
+            const total = days * pricePerDay;
+            totalSpan.innerText = 'Итого: ' + total + ' ₽';
+        } else {
+            totalSpan.innerText = 'Итого: 0 ₽ (некорректные даты)';
+        }
+    }
+
+    startInput.addEventListener('change', calculateTotal);
+    endInput.addEventListener('change', calculateTotal);
+    calculateTotal();
+
+    submitBtn.addEventListener('click', async function() {
+        errorDiv.style.display = 'none';
+        errorDiv.innerHTML = '';
+        document.getElementById('startDateError').innerText = '';
+        document.getElementById('endDateError').innerText = '';
+
+        const formData = new FormData();
+        formData.append('CarId', document.querySelector('input[name="CarId"]').value);
+        formData.append('CarName', document.querySelector('input[name="CarName"]').value);
+        formData.append('PricePerDay', document.querySelector('input[name="PricePerDay"]').value);
+        formData.append('StartDate', startInput.value);
+        formData.append('EndDate', endInput.value);
+
+        try {
+            const response = await fetch('/Rentals/Create', {
+                method: 'POST',
+                headers: {
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                },
+                body: formData
+            });
+
+            if (response.redirected) {
+                window.location.href = response.url;
+                return;
+            }
+
+            const text = await response.text();
+            if (response.ok) {
+                const carId = document.querySelector('input[name="CarId"]').value;
+                window.location.href = '/Cars/Details/' + carId + '?success=true';
+            } else {
+                const parser = new DOMParser();
+                const htmlDoc = parser.parseFromString(text, 'text/html');
+                const errors = htmlDoc.querySelectorAll('.text-danger, .alert-danger');
+                let errorMessages = [];
+                errors.forEach(err => {
+                    if (err.innerText.trim()) errorMessages.push(err.innerText);
+                });
+                if (errorMessages.length === 0) errorMessages.push('Неизвестная ошибка. Попробуйте позже.');
+                errorDiv.innerHTML = errorMessages.join('<br>');
+                errorDiv.style.display = 'block';
+            }
+        } catch (err) {
+            errorDiv.innerHTML = 'Ошибка соединения. Проверьте интернет.';
+            errorDiv.style.display = 'block';
+        }
+    });
+</script>
+
+@section Scripts {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}   
