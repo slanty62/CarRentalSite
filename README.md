@@ -2,6 +2,12 @@
 
 **CarRental** — это полнофункциональный веб-сайт для аренды автомобилей, разработанный на ASP.NET Core MVC с использованием Entity Framework Core, SQLite, Identity для аутентификации и Bootstrap 5. Проект выполнен в современном красно-сером стиле с анимациями и адаптивным дизайном.
 
+<div align="center">
+
+<img width="1024" height="932" alt="21321345" src="https://github.com/user-attachments/assets/c3e6fd2d-2669-4272-8438-7ab2991c2907" />
+
+
+
 ---
 
 ## ✨ Функционал
