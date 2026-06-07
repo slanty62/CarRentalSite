@@ -29,7 +29,8 @@ public class ApplicationDbContext : IdentityDbContext
             new Car { Id = 9, Brand = "Mercedes-Benz", Model = "S Class 222", Year = 2016, PricePerDay = 30000, IsAvailable = true, ImageUrl = "/images/mers.jpg", Description = "Автомобиль бизнес-класса - это хороший способ не только обозначить статус человека, но и обеспечить себе высокий уровень комфорта и удобства от поездки" },
             new Car { Id = 10, Brand = "Ford", Model = "Mustang", Year = 2018, PricePerDay = 20000, IsAvailable = true, ImageUrl = "/images/mustang.jpg", Description = "Автомобиль оснащен двигателем 2.3 EcoBoost мощностью 317 лошадиных сил" },
             new Car { Id = 11, Brand = "Porsche ", Model = "911 Carrera 4S", Year = 2013, PricePerDay = 45000, IsAvailable = true, ImageUrl = "/images/porshe.jpg", Description = "400 л.с , мягкая крыша, красный кожаный салон" },
-            new Car { Id = 12, Brand = "Ferrari", Model = "Portofino", Year = 2017, PricePerDay = 85990, IsAvailable = true, ImageUrl = "/images/fera.jpg", Description = "Ferrari Portofino — идеальное воплощение итальянского Gran Turismo" }
+            new Car { Id = 12, Brand = "Ferrari", Model = "Portofino", Year = 2017, PricePerDay = 85990, IsAvailable = true, ImageUrl = "/images/fera.jpg", Description = "Ferrari Portofino — идеальное воплощение итальянского Gran Turismo" },
+            new Car { Id = 13, Brand = "Toyota", Model = "Carolla", Year = 2016, PricePerDay = 999999, IsAvailable = true, ImageUrl = "/images/corolla.jpg", Description = "Статустная машина для истинных ценителей" }
         );
     }
 }
