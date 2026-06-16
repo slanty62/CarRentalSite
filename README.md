@@ -57,7 +57,7 @@
 
 1. **Клонируйте репозиторий**
    ```bash
-   git clone https://github.com/slanty62/CarRental.git
+   git clone https://github.com/slanty62/CarRentalSite.git
    cd CarRental
   
 2. **Восстановите зависимости**
